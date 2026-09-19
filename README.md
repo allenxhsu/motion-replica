@@ -1,12 +1,13 @@
-# Project Planner
+# Motion Replica
 
-A browser-based project scheduler in the manner of Microsoft Project: a task
-list with outline levels, a Gantt chart with dependency arrows and the critical
-path, a network diagram, resource sheets and usage, live checks, and
-interchange with Microsoft Project itself through its XML format.
+A Motion-inspired workspace built on a Microsoft Project-style planning engine.
+It combines projects, tasks, calendar scheduling, focus planning, Gantt charts,
+dependency arrows, the critical path, network diagrams, resource views, live
+checks, and Microsoft Project XML interchange in one app.
 
 No build step, no package manager, no dependencies — plain ES modules and SVG,
-styled with the shared `ui-kit` HUD theme.
+styled with the shared `ui-kit`. The original planner interface remains
+available alongside the Motion workspace and optional Starcraft theme.
 
 ## Running it
 

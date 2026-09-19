@@ -1,5 +1,6 @@
 // Wires the store to the panels and owns the global keyboard shortcuts.
 
+import { initMotionShell, renderMotionShell, renderProjects, renderTasks } from './ui/motion-workspace.js';
 import { el, clear } from './util.js';
 import { store, subscribe, set, undo, redo, loadProject, markSaved, readAutosave, revision } from './state/store.js';
 import * as act from './state/actions.js';
@@ -27,7 +28,7 @@ function tabs(root, key, items) {
   }
 }
 
-const VIEW_RENDERERS = { focus: renderFocus, calendar: renderCalendar, gantt: renderGantt, sheet: renderTaskSheet, resources: renderResourceSheet, usage: renderResourceUsage, network: renderNetwork };
+const VIEW_RENDERERS = { projects: renderProjects, tasks: renderTasks, focus: renderFocus, calendar: renderCalendar, gantt: renderGantt, sheet: renderTaskSheet, resources: renderResourceSheet, usage: renderResourceUsage, network: renderNetwork };
 
 const requestedView = window.location.hash.slice(1);
 if (VIEW_RENDERERS[requestedView]) store.ui.view = requestedView;
@@ -40,6 +41,7 @@ function render() {
   const { ui } = store;
   if (window.location.hash !== `#${ui.view}`) window.history.replaceState(null, '', `#${ui.view}`);
   renderHeader();
+  renderMotionShell();
   renderViewTabs($('view-tabs'));
   renderToolbar($('toolbar'));
   $('app').classList.toggle('no-right', !ui.rightOpen);
@@ -108,6 +110,7 @@ function initHosting() {
 }
 
 initHeader($('header'));
+initMotionShell();
 subscribe(render);
 document.addEventListener('keydown', onKey);
 initHosting();

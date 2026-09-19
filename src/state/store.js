@@ -14,6 +14,7 @@ const MAX_HISTORY = 100;
 const AUTOSAVE_KEY = 'project-planner:autosave';
 
 export const VIEWS = {
+  projects: { label: 'Projects', glyph: '▧' }, tasks: { label: 'My tasks', glyph: '☑' },
   focus: { label: 'Focus Planner', glyph: '◷' },
   calendar: { label: 'Calendar', glyph: '▦' },
   gantt: { label: 'Gantt Chart', glyph: '▤' },

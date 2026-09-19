@@ -172,7 +172,7 @@ export const COMMANDS = {
   'task.link': act.linkSelection, 'task.unlink': act.unlinkSelection, 'task.info': () => set({ rightOpen: true, rightTab: 'task' }),
   'task.complete': () => { const id = act.activeId(); if (id) act.setPercent(id, 100); },
   'resource.new': act.newResource, 'resource.delete': () => act.deleteResource(), 'resource.info': () => set({ rightOpen: true, rightTab: 'resource' }),
-  'view.focus': goView('focus'), 'view.calendar': goView('calendar'), 'view.gantt': goView('gantt'), 'view.sheet': goView('sheet'), 'view.resources': goView('resources'), 'view.usage': goView('usage'), 'view.network': goView('network'),
+  'view.projects': goView('projects'), 'view.tasks': goView('tasks'), 'view.focus': goView('focus'), 'view.calendar': goView('calendar'), 'view.gantt': goView('gantt'), 'view.sheet': goView('sheet'), 'view.resources': goView('resources'), 'view.usage': goView('usage'), 'view.network': goView('network'),
   'view.zoomIn': zoomIn, 'view.zoomOut': zoomOut, 'view.today': () => store.ui.view === 'calendar' ? calendarToday() : scrollToToday(),
   'view.expandAll': () => act.collapseAll(false), 'view.collapseAll': () => act.collapseAll(true),
   'view.inspector': () => set({ rightOpen: !store.ui.rightOpen }), 'view.checks': () => set({ bottomOpen: !store.ui.bottomOpen }),

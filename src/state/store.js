@@ -14,6 +14,8 @@ const MAX_HISTORY = 100;
 const AUTOSAVE_KEY = 'project-planner:autosave';
 
 export const VIEWS = {
+  focus: { label: 'Focus Planner', glyph: '◷' },
+  calendar: { label: 'Calendar', glyph: '▦' },
   gantt: { label: 'Gantt Chart', glyph: '▤' },
   sheet: { label: 'Task Sheet', glyph: '☰' },
   resources: { label: 'Resource Sheet', glyph: '◧' },
@@ -26,7 +28,8 @@ export const store = {
   schedule: null,
   issues: [],
   ui: {
-    view: 'gantt',
+    view: 'calendar',
+    focusStart: null, focusWeek: null, calendarWeek: null, calendarResource: '', calendarHideCompleted: false,
     selection: [],          // task ids, in click order; the last is the active row
     activeCol: 'name',      // grid column the cursor is in
     resourceId: null,       // selected resource (resource views)
@@ -137,7 +140,7 @@ export function loadProject(project, fileName = null) {
   store._redo.length = 0;
   store._rev++;
   recompute();
-  Object.assign(store.ui, { selection: [], resourceId: null, collapsed: {}, fileName, dirty: false, hint: '', editing: null });
+  Object.assign(store.ui, { focusStart: null, focusWeek: null, calendarWeek: null, calendarResource: '', selection: [], resourceId: null, collapsed: {}, fileName, dirty: false, hint: '', editing: null });
   autosave();
   emit();
 }

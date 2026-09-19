@@ -1,6 +1,7 @@
 // The native file: the plan as JSON. Loading repairs what it can and reports it.
 
 import { FORMAT, VERSION, createProject, newTask, newResource, normalizeLevels, LINK_TYPES, CONSTRAINTS, RESOURCE_TYPES } from '../model/model.js';
+import { normalizeFocus } from '../model/focus.js';
 import { isoValid } from '../model/calendar.js';
 
 export const FILE_EXT = '.project.json';
@@ -25,6 +26,7 @@ export function parse(text) {
     p.calendar.hoursPerDay = Number(c.hoursPerDay) > 0 ? Number(c.hoursPerDay) : 8;
     p.calendar.holidays = Array.isArray(c.holidays) ? c.holidays.filter(isoValid) : [];
   }
+  if (raw.focus) p.focus = normalizeFocus(raw.focus);
   const resIds = new Set();
   for (const r of Array.isArray(raw.resources) ? raw.resources : []) {
     if (!r || typeof r !== 'object') continue;

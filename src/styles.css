@@ -200,3 +200,30 @@ body { overflow: hidden; background: var(--sc-bg); color: var(--sc-text); font-f
 .pop-menu .sc-menu-item { display: flex; justify-content: space-between; gap: 16px; width: 100%; }
 .menu-note { padding: 8px 12px; color: var(--sc-text-3); font-size: 12px; }
 .pop-menu sc-theme-picker { display: block; padding: 4px 12px 10px; }
+
+/* Shared-kit calendar: task records and dates come from the existing plan. */
+.planner-calendar { width:100%; min-width:0; display:flex; flex-direction:column; overflow:auto; }
+.planner-calendar-header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px; background:var(--sc-panel); border-bottom:1px solid var(--sc-line); flex-wrap:wrap; }
+.planner-calendar-header h2 { margin:0; font-size:20px; }.planner-calendar-header p { margin:8px 0 0;font-size:14px; }
+.planner-calendar-filters { display:flex; gap:18px; align-items:center; padding:12px 20px; flex-wrap:wrap; }.planner-calendar-filters label { font-size:14px; }
+.planner-calendar-note { font-size:13px; margin:0; padding:0 20px 14px; }
+.planner-week-scroll { flex:1; min-height:250px; overflow:auto; }.planner-week { display:grid; grid-template-columns:repeat(7,minmax(165px,1fr)); min-height:100%; }
+.planner-day { border-top:1px solid var(--sc-line); border-right:1px solid var(--sc-line); padding:10px; background:var(--sc-bg); }.planner-day.is-off { background:var(--sc-sunken); }
+.planner-day-head { display:flex; flex-direction:column; gap:8px; padding:6px 3px 18px; }.planner-day-head strong { font:18px var(--sc-font-ui); }.planner-day-head .sc-muted { font-size:12px; }.planner-day.is-today .planner-day-head { color:var(--sc-accent); }
+.planner-task { margin-bottom:12px; padding:12px!important; border-left:2px solid var(--sc-accent)!important; }.planner-task.is-selected { outline:1px solid var(--sc-accent); }.planner-task.is-done { opacity:.65; }.planner-task.is-done .planner-task-title { text-decoration:line-through; }
+.planner-task-title { background:none; border:0; color:var(--sc-text); font:600 14px/1.5 var(--sc-font-ui); text-align:left; padding:0; cursor:pointer; width:100%; overflow-wrap:anywhere; }.planner-task-title:hover { color:var(--sc-accent); }.planner-task-title:focus-visible { outline:2px solid var(--sc-accent); }
+.planner-task-meta { color:var(--sc-text-2); font-size:12px; margin-top:9px; }.planner-critical { display:block; color:var(--sc-danger); font-size:12px; margin-top:9px; }.planner-task-actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }.planner-task-actions .sc-button { font:11px var(--sc-font-ui); padding:5px 7px; }
+.view-tabs { overflow-x:auto; }.view-tabs .sc-tab { flex-shrink:0; }
+
+.focus-view { width:100%; min-width:0; display:flex; flex-direction:column; overflow:auto; }
+.focus-scroll { flex:1; min-height:240px; overflow:auto; }.focus-board{display:grid;grid-template-columns:repeat(7,minmax(180px,1fr));min-height:100%;}
+.focus-day{padding:12px;border-right:1px solid var(--sc-line);border-top:1px solid var(--sc-line);background:var(--sc-bg)}
+.focus-block{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left;cursor:pointer;margin-bottom:10px;padding:12px!important;border-left:3px solid var(--sc-accent);color:var(--sc-text);font:14px/1.4 var(--sc-font-ui)}
+.focus-block strong{font-weight:500;overflow-wrap:anywhere}.focus-block.is-busy{border-left-color:var(--sc-accent-2)}.focus-time{color:var(--sc-accent);font-size:12px}.focus-block .sc-muted{font-size:12px}.focus-block:focus-visible{outline:2px solid var(--sc-accent);outline-offset:2px}
+.focus-warnings{padding:12px 20px;color:var(--sc-warning);border-top:1px solid var(--sc-line);max-height:170px;overflow:auto}.focus-warnings summary{cursor:pointer;font-size:14px}.focus-warning{display:block;background:none;color:var(--sc-text-2);border:none;text-align:left;font:13px/1.5 var(--sc-font-ui);padding:8px 0;cursor:pointer}
+[data-planner-look="motion"] .focus-block{background:#f2ecfa}[data-planner-look="motion"] .focus-block.is-busy{background:#faf0e4}
+@media(max-width:900px){#header{flex-wrap:wrap}.menubar{overflow-x:auto;max-width:100%;margin-left:0}#header .sc-header-title{font-size:14px}#header .sc-resource{display:none}}
+/* Header controls wrap without falling underneath the view tabs. */
+#header { height:auto; min-height:52px; padding-top:8px; padding-bottom:8px; flex-wrap:wrap; }
+@media(max-width:1200px){#header .menubar{order:3;flex-basis:100%;margin:0;overflow-x:auto}#header .sc-header-title{font-size:14px}#header #file-name{display:none}}
+@media(max-width:650px){#header{padding:8px 12px;gap:8px}#header .find{width:110px}#header .sc-brand-mark{display:none}#body{grid-template-columns:minmax(0,1fr) 240px}.planner-calendar-header,.planner-calendar-filters{padding:12px}.planner-calendar-note{padding:0 12px 12px}}

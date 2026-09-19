@@ -6,10 +6,13 @@
 <title>Project Planner</title>
 <link rel="stylesheet" href="ui-kit/css/kit.css">
 <link rel="stylesheet" href="src/styles.css">
+<link rel="stylesheet" href="src/motion-theme.css">
 <!-- Applied before first paint so the page never flashes unthemed. -->
 <script type="module">
   import { initTheme } from './ui-kit/js/theme.js';
   initTheme({ app: 'project' });
+  const { initAppearance } = await import('./src/appearance.js');
+  initAppearance();
 </script>
 <script type="module" src="ui-kit/js/theme-picker.js"></script>
 </head>

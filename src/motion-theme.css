@@ -1,0 +1,25 @@
+/* Optional original prototype palette; the shared HUD kit remains unmodified. */
+html[data-planner-look="motion"] {
+  color-scheme:light;
+  --sc-void:#f9f9fb;--sc-bg:#fff;--sc-panel:#fff;--sc-panel-2:#f7f7fa;--sc-raised:#fff;--sc-sunken:#faf9fc;
+  --sc-line:#e8e6ee;--sc-line-rgb:232 230 238;--sc-line-strong:#d6d1df;
+  --sc-text:#29262f;--sc-text-rgb:41 38 47;--sc-text-2:#696273;--sc-text-3:#847b90;
+  --sc-accent:#8965c5;--sc-accent-rgb:137 101 197;--sc-accent-2:#a57842;--sc-accent-2-rgb:165 120 66;--sc-glow:#8965c5;--sc-glow-rgb:137 101 197;
+  --sc-danger:#b34856;--sc-danger-rgb:179 72 86;--sc-warning:#986e25;--sc-warning-rgb:152 110 37;--sc-success:#367b52;--sc-info:#497fac;
+  --sc-font-ui:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--sc-font-display:var(--sc-font-ui);--sc-font-mono:var(--sc-font-ui);--sc-chamfer:0px;
+}
+html[data-planner-look="motion"] body{background:#fff}
+html[data-planner-look="motion"] body::before,html[data-planner-look="motion"] body::after{display:none!important}
+[data-planner-look="motion"] :is(.sc-panel,.sc-card,.sc-header,.sc-button,.sc-tab,.sc-input,.sc-select,.sc-textarea,.sc-dialog,.sc-menu){background-image:none;box-shadow:none;text-shadow:none;clip-path:none}
+[data-planner-look="motion"] :is(.sc-button,.sc-input,.sc-select,.sc-textarea,.sc-card,.sc-dialog,.sc-menu){border-radius:7px}
+[data-planner-look="motion"] :is(.sc-button,.sc-panel,.sc-card,.sc-header,.sc-tab,.sc-brand-mark)::before,
+[data-planner-look="motion"] :is(.sc-button,.sc-panel,.sc-card,.sc-header,.sc-tab,.sc-brand-mark)::after{display:none!important}
+[data-planner-look="motion"] :is(.sc-button,.sc-tab,.sc-label,.sc-header-title,.sc-display,.sc-section-title){text-transform:none;letter-spacing:normal}
+[data-planner-look="motion"] .sc-button{border:1px solid var(--sc-line-strong);background:var(--sc-panel);color:var(--sc-text-2)}
+[data-planner-look="motion"] .sc-button--primary{background:var(--sc-accent);color:white;border-color:var(--sc-accent)}
+[data-planner-look="motion"] .sc-tab.is-active{color:var(--sc-accent);background:#f0eafa;border-bottom:2px solid var(--sc-accent)}
+[data-planner-look="motion"] .sc-header{border-bottom:1px solid var(--sc-line)}
+[data-planner-look="motion"] .planner-task{background:#f2ecfa;border:1px solid #e6ddf2}
+[data-planner-look="motion"] .planner-calendar-header{background:#fff}
+[data-planner-look="motion"] .sc-brand-mark{clip-path:none;background:#eee7f7;border-radius:7px;color:var(--sc-accent)}
+.appearance-select{max-width:155px;flex-shrink:0;font-size:12px}

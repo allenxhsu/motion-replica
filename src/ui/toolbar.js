@@ -1,5 +1,6 @@
 // Header (brand, menus, find, undo/redo), view tabs, the action toolbar and the status line.
 
+import { getAppearance, setAppearance } from '../appearance.js';
 import { el, clear, downloadText, downloadBlob, slugify } from '../util.js';
 import { store, set, undo, redo, canUndo, canRedo, loadProject, markSaved, VIEWS } from '../state/store.js';
 import * as act from '../state/actions.js';
@@ -14,6 +15,7 @@ import { zoomGantt, scrollToToday, ZOOMS } from './gantt.js';
 import { zoomNetwork } from './network.js';
 import { RULES } from '../model/validate.js';
 import { formatDate } from '../model/calendar.js';
+import { calendarToday } from './calendar.js';
 import { hosted, post } from '../host.js';
 
 // ---------------------------------------------------------------- file commands
@@ -170,8 +172,8 @@ export const COMMANDS = {
   'task.link': act.linkSelection, 'task.unlink': act.unlinkSelection, 'task.info': () => set({ rightOpen: true, rightTab: 'task' }),
   'task.complete': () => { const id = act.activeId(); if (id) act.setPercent(id, 100); },
   'resource.new': act.newResource, 'resource.delete': () => act.deleteResource(), 'resource.info': () => set({ rightOpen: true, rightTab: 'resource' }),
-  'view.gantt': goView('gantt'), 'view.sheet': goView('sheet'), 'view.resources': goView('resources'), 'view.usage': goView('usage'), 'view.network': goView('network'),
-  'view.zoomIn': zoomIn, 'view.zoomOut': zoomOut, 'view.today': scrollToToday,
+  'view.focus': goView('focus'), 'view.calendar': goView('calendar'), 'view.gantt': goView('gantt'), 'view.sheet': goView('sheet'), 'view.resources': goView('resources'), 'view.usage': goView('usage'), 'view.network': goView('network'),
+  'view.zoomIn': zoomIn, 'view.zoomOut': zoomOut, 'view.today': () => store.ui.view === 'calendar' ? calendarToday() : scrollToToday(),
   'view.expandAll': () => act.collapseAll(false), 'view.collapseAll': () => act.collapseAll(true),
   'view.inspector': () => set({ rightOpen: !store.ui.rightOpen }), 'view.checks': () => set({ bottomOpen: !store.ui.bottomOpen }),
   'view.appearance': appearance,
@@ -230,6 +232,11 @@ const MENUS = {
 // ---------------------------------------------------------------- header
 
 export function initHeader(root) {
+  const look = el('select', { class: 'sc-select appearance-select', 'aria-label': 'Interface style', onchange: e => setAppearance(e.target.value) },
+    el('option', { value: 'motion', text: 'Motion style' }), el('option', { value: 'hud', text: 'Shared HUD kit' }));
+  look.value = getAppearance();
+  window.addEventListener('planner:appearance', e => { look.value = e.detail; });
+
   const menubar = el('nav', { class: 'menubar' }, ...Object.keys(MENUS).map((name) => el('button', {
     class: 'sc-button sc-button--ghost sc-button--sm', text: name,
     onclick: (e) => { const r = e.currentTarget.getBoundingClientRect(); showMenu(r.left, r.bottom + 4, MENUS[name]()); },
@@ -237,7 +244,7 @@ export function initHeader(root) {
   const find = el('input', { class: 'sc-input find', placeholder: 'Find task', id: 'find', oninput: (e) => findResults(e.target), onkeydown: (e) => { if (e.key === 'Escape') { e.target.value = ''; e.target.blur(); } e.stopPropagation(); } });
   root.append(
     el('span', { class: 'sc-brand-mark', text: 'PJ' }), el('h1', { class: 'sc-header-title', text: 'Project Planner' }), menubar, el('span', { class: 'sc-spacer' }),
-    el('span', { class: 'sc-mono sc-muted', id: 'file-name' }),
+    look, el('span', { class: 'sc-mono sc-muted', id: 'file-name' }),
     el('span', { class: 'sc-resource', title: 'Tasks' }, el('span', { class: 'sc-resource-icon' }), el('span', { id: 'count-tasks' })),
     el('span', { class: 'sc-resource sc-resource--alt', title: 'Resources' }, el('span', { class: 'sc-resource-icon' }), el('span', { id: 'count-resources' })),
     el('button', { class: 'sc-button sc-button--ghost sc-button--icon sc-button--sm', id: 'btn-undo', title: 'Undo', text: '↶', onclick: undo }),

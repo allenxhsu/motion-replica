@@ -60,10 +60,25 @@ Typing a **start date** pins the task with a Start No Earlier Than constraint,
 as Project does; so does dragging its bar. Typing a **finish date** changes
 the duration.
 
+## Calendar integration
+
+The app now opens on a weekly Calendar view, built with the repository's
+unchanged shared `ui-kit` components, tokens, fonts, and theme picker.
+Calendar cards use the same task IDs and CPM dates as the Gantt and task sheet.
+Select a card to edit it in the existing inspector; completion is undoable,
+autosaved, and included in native project files. Filter by resource, hide
+completed work, move between weeks, or jump to the project start.
+
+The Calendar tab is a working-day calendar. Multi-day
+tasks appear on each scheduled working day; weekends and holidays follow the
+project calendar. The Focus Planner tab adds hourly planning (see below). No Google/Outlook account connection or AI service is configured.
+The existing MPXJ setup is still required for binary `.mpp` conversion.
+
 ## Views
 
 | View | What it is |
 |---|---|
+| Calendar | weekly task cards using shared schedule dates, resource filters, completion and the existing inspector |
 | Gantt Chart | editable task grid beside the timeline: bars, summary brackets, milestones, dependency arrows, progress, deadlines, today. Drag a bar to move it, its right edge to resize, the dot at its end onto another bar to link. Days, weeks or months. |
 | Task Sheet | the full column set: WBS, work, cost, slack, critical, constraint, deadline, notes |
 | Resource Sheet | people and things: type, max units, rate, group; work and cost roll-ups |
@@ -124,3 +139,40 @@ tools/mpp2xml.sh    Microsoft Project files in and out, through MPXJ (see tools/
 macos/              the Swift shell
 ui-kit/             the shared theme (a copy of ../ui-kit)
 ```
+
+## Focus Planner
+
+Open `/#focus` for a personal hourly schedule over the next 28 days. Settings
+choose a resource (or one shared queue for all tasks), working hours, and a
+maximum block length. Remaining duration is estimated from duration and percent
+complete. The project calendar controls weekdays and holidays. Busy periods
+are editable; adding one immediately reallocates focus work around it.
+
+The focus layer never overwrites CPM/Gantt dates. It respects leaf
+finish-to-start dependencies with nonnegative lag; unsupported dependency
+relationships, cyclic tasks, insufficient capacity, and late allocation are
+reported as scheduling notices. This is a deterministic personal scheduler,
+not a multi-resource optimizer or an AI service. Task duration is used as the
+personal effort estimate; assignment units do not scale that estimate.
+
+Focus settings and busy periods are included in autosave, undo/redo, and native
+`.project.json` files. Microsoft Project XML and CSV retain their established
+project-task format and do not include this personal planning metadata.
+
+**Export calendar** downloads `.ics` focus blocks with floating local times.
+Choose the correct timezone in your calendar during import. Export is a
+snapshot, not two-way sync; repeated imports may duplicate or leave stale events
+in calendar applications that do not reconcile event IDs.
+
+## Appearance options
+
+The header's **Interface style** selector switches between **Motion style**
+(light surfaces, purple accents) and the original **Shared HUD kit**. The app
+remembers the choice locally without rewriting shared kit theme preferences.
+The UI kit files are unchanged. Both appearances use the same task records.
+
+## Development verification
+
+`node --test tests/` checks scheduling, calendar projections, focus capacity,
+busy-period collision avoidance, dependencies, native file round-trips, and
+calendar export. Converter tests need the separate MPXJ installation.

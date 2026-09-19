@@ -9,6 +9,8 @@ import { hosted, post, initHost } from './host.js';
 import { renderGantt, zoomGantt, scrollToToday } from './ui/gantt.js';
 import { renderTaskSheet, editActiveCell, moveActiveCol } from './ui/taskgrid.js';
 import { renderResourceSheet, renderResourceUsage } from './ui/resources.js';
+import { renderFocus } from './ui/focus.js';
+import { renderCalendar, calendarToday } from './ui/calendar.js';
 import { renderNetwork, zoomNetwork } from './ui/network.js';
 import { renderInspector } from './ui/inspector.js';
 import { renderBottom, checkBadge } from './ui/bottom.js';
@@ -25,10 +27,18 @@ function tabs(root, key, items) {
   }
 }
 
-const VIEW_RENDERERS = { gantt: renderGantt, sheet: renderTaskSheet, resources: renderResourceSheet, usage: renderResourceUsage, network: renderNetwork };
+const VIEW_RENDERERS = { focus: renderFocus, calendar: renderCalendar, gantt: renderGantt, sheet: renderTaskSheet, resources: renderResourceSheet, usage: renderResourceUsage, network: renderNetwork };
+
+const requestedView = window.location.hash.slice(1);
+if (VIEW_RENDERERS[requestedView]) store.ui.view = requestedView;
+window.addEventListener('hashchange', () => {
+  const view = window.location.hash.slice(1);
+  if (VIEW_RENDERERS[view]) set({ view });
+});
 
 function render() {
   const { ui } = store;
+  if (window.location.hash !== `#${ui.view}`) window.history.replaceState(null, '', `#${ui.view}`);
   renderHeader();
   renderViewTabs($('view-tabs'));
   renderToolbar($('toolbar'));
@@ -60,7 +70,7 @@ function onKey(e) {
   if (mod && k === 'i') { e.preventDefault(); COMMANDS['task.info'](); return; }
   if (mod && (k === '=' || k === '+')) { e.preventDefault(); COMMANDS['view.zoomIn'](); return; }
   if (mod && k === '-') { e.preventDefault(); COMMANDS['view.zoomOut'](); return; }
-  if (mod && k === '0') { e.preventDefault(); scrollToToday(); return; }
+  if (mod && k === '0') { e.preventDefault(); if (ui.view === 'calendar') calendarToday(); else scrollToToday(); return; }
   if (mod) return;
   if (e.key === 'Escape') { set({ editing: null, hint: '' }); return; }
   if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); COMMANDS['edit.delete'](); return; }
